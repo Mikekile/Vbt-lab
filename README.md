@@ -64,7 +64,7 @@ Average power in the MyUnit manual is introduced as `F = m * g` and `P = F * v`,
 
 https://www.tendosport.com/wp-content/uploads/2022/04/Tendo-MyUnit-manual-eng-1.2.pdf
 
-Peak power and peak force use the manual's other equation, `P = F * v` where `F = (m * g) + (m * a)`. Acceleration is the change in the 1 cm velocities over the change in their times. Peak force is the maximum of that force from the start of the rep out to `N_PARTIAL_AVG_RANGE` percent of the rise. Manual section 4.5 defines that window. The manual's device default is 50 percent.
+Peak power and peak force use the manual's other equation, `P = F * v` where `F = (m * g) + (m * a)`. Acceleration is the change in the 1 cm velocities over the change in their times. The first and last samples reuse the nearest centered acceleration. Peak force is the maximum of that force from the start of the rep out to `N_PARTIAL_AVG_RANGE` percent of the rise. Manual section 4.5 defines that window. The manual's device default is 50 percent. If the export omits the attribute, peak force uses the full rise.
 
 That derivative is noisier than Tendo's peak power and peak force. On the checked export, peak power sits several percent high, and one rep is farther off. The manual gives the equation and does not give the smoothing. This app does not add a smoothing constant to close the gap.
 

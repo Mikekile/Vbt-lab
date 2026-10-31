@@ -70,6 +70,28 @@ function fastest(counts, width) {
   return { velocity: best, time: (t0 + t1) / 2, span }
 }
 
+function centeredAcceleration(velocity) {
+  const accel = new Array(velocity.length).fill(0)
+  if (velocity.length >= 3) {
+    for (let i = 1; i < velocity.length - 1; i++) {
+      accel[i] = (velocity[i + 1].y - velocity[i - 1].y) / (velocity[i + 1].t - velocity[i - 1].t)
+    }
+    return reuseNearestCentered(accel)
+  }
+  if (velocity.length === 2) {
+    const step = (velocity[1].y - velocity[0].y) / (velocity[1].t - velocity[0].t)
+    accel[0] = step
+    accel[1] = step
+  }
+  return accel
+}
+
+function reuseNearestCentered(accel) {
+  accel[0] = accel[1]
+  accel[accel.length - 1] = accel[accel.length - 2]
+  return accel
+}
+
 export function analyze(counts, mass, partialPercent) {
   if (!counts.length) throw new Error("This rep has no samples")
   const sums = prefixSums(counts)
@@ -91,21 +113,7 @@ export function analyze(counts, mass, partialPercent) {
     displacement.push({ t: elapsed, y: (i + 1) * STEP_M })
   }
 
-  // Centered difference. The first and last samples have no neighbor on one
-  // side, so they reuse the nearest centered acceleration. A one-sided step
-  // there is a shorter baseline and treats the break off the bar as a spike.
-  const accel = new Array(counts.length).fill(0)
-  if (counts.length >= 3) {
-    for (let i = 1; i < counts.length - 1; i++) {
-      accel[i] = (velocity[i + 1].y - velocity[i - 1].y) / (velocity[i + 1].t - velocity[i - 1].t)
-    }
-    accel[0] = accel[1]
-    accel[counts.length - 1] = accel[counts.length - 2]
-  } else if (counts.length === 2) {
-    const step = (velocity[1].y - velocity[0].y) / (velocity[1].t - velocity[0].t)
-    accel[0] = step
-    accel[1] = step
-  }
+  const accel = centeredAcceleration(velocity)
 
   const power = velocity.map((sample, i) => ({
     t: sample.t,

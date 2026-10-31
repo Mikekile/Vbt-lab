@@ -45,6 +45,15 @@ test("the same export has the same content key", () => {
   assert.equal(contentKey(parseTpaf(sample).sets), contentKey(parseTpaf(sample).sets))
 })
 
+test("a missing partial range uses the full rise", () => {
+  const xml = `<sets><set D_TRY="01/02/2020 01:05:00 PM" S_EXCERSIZE_NAME="Squat">
+    <rep N_VALUE_ID="1" N_LOAD_REP="20" S_UNIT_REP="kg" N_AVERAGE_VELOCITY="1" N_PEAK_VELOCITY="1" N_PEAK_POWER="1">
+      <i_data>1000#1000</i_data>
+    </rep>
+  </set></sets>`
+  assert.equal(parseTpaf(xml).sets[0].partialPercent, 100)
+})
+
 test("a file without sets is rejected", () => {
   assert.throws(() => parseTpaf("<sets></sets>"), /not a Tendo/)
 })

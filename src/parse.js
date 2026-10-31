@@ -54,13 +54,18 @@ function countsFrom(text, label) {
   return counts
 }
 
+const FULL_ROM_PERCENT = 100
+
+function partialPercentOrFullRom(setAttrs) {
+  return optionalNumber(setAttrs, "N_PARTIAL_AVG_RANGE") ?? FULL_ROM_PERCENT
+}
+
 function loadFrom(value, unit) {
   const load = { value, unit }
   massKg(load)
   return load
 }
 
-// Tendo writes D_TRY as month/day/year and a 12-hour clock.
 export function triedAtMs(raw) {
   const match = /^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s+(AM|PM)$/i.exec(String(raw).trim())
   if (!match) return 0
@@ -123,10 +128,7 @@ export function parseTpaf(xml) {
       triedAt,
       note: setAttrs.S_NOTE || "",
       filterCm: optionalNumber(setAttrs, "N_FILTER"),
-      // A missing partial-range attribute does not record the device setting.
-      // The manual default is 50, but guessing that would drop the second half
-      // of the force curve, so a missing value uses the full range.
-      partialPercent: optionalNumber(setAttrs, "N_PARTIAL_AVG_RANGE") ?? 100,
+      partialPercent: partialPercentOrFullRom(setAttrs),
       reps,
     })
   }
