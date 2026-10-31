@@ -70,6 +70,10 @@ function mountCharts(curve) {
   }
 }
 
+function banner() {
+  return notice ? `<p class="alert" role="alert">${esc(notice)}</p>` : ""
+}
+
 function header(backHref) {
   const back = backHref ? `<a class="back" href="${esc(backHref)}">Back</a>` : `<span class="brand">vbt lab</span>`
   return `<header class="bar">
@@ -97,8 +101,7 @@ function home() {
       </a>`
     })
     .join("")
-  const alert = notice ? `<p class="alert" role="alert">${esc(notice)}</p>` : ""
-  app.innerHTML = `${header(null)}<main>${alert}${empty}<div class="cards">${cards}</div></main>`
+  app.innerHTML = `${header(null)}<main>${banner()}${empty}<div class="cards">${cards}</div></main>`
 }
 
 function curveFor(set, rep) {
@@ -149,6 +152,7 @@ function sessionView(session) {
   const note = first.note ? `<p class="meta">${esc(first.note)}</p>` : ""
   app.innerHTML = `${header("#/")}
     <main>
+      ${banner()}
       <h1>${esc(first.exercise)}</h1>
       <p class="sub">${esc(formatTried(first.triedAt))} · ${repCount(session.sets)} reps</p>
       ${note}
@@ -181,7 +185,7 @@ function repView(session, setIndex, repIndex) {
   const set = session.sets[setIndex]
   const rep = set.reps[repIndex]
   if (!set || !rep) {
-    app.innerHTML = `${header(`#/s/${esc(session.id)}`)}<main><h1>That rep is not in this session.</h1></main>`
+    app.innerHTML = `${header(`#/s/${esc(session.id)}`)}<main>${banner()}<h1>That rep is not in this session.</h1></main>`
     return
   }
   const curve = curveFor(set, rep)
@@ -192,6 +196,7 @@ function repView(session, setIndex, repIndex) {
     href ? `<a class="button ghost" href="${esc(href)}">${label}</a>` : `<span class="button ghost dead">${label}</span>`
   app.innerHTML = `${header(`#/s/${esc(session.id)}`)}
     <main>
+      ${banner()}
       <h1>Rep ${esc(rep.index)}</h1>
       <p class="sub">${esc(formatLoad(rep.load))} · ${esc(set.exercise)}</p>
       <div class="stats">
@@ -230,7 +235,7 @@ async function render() {
   }
   const session = sessions.find((item) => item.id === route.id) ?? (await getSession(route.id))
   if (!session) {
-    app.innerHTML = `${header("#/")}<main><h1>That session is not on this iPad.</h1></main>`
+    app.innerHTML = `${header("#/")}<main>${banner()}<h1>That session is not on this iPad.</h1></main>`
     return
   }
   if (route.name === "rep") repView(session, route.setIndex, route.repIndex)

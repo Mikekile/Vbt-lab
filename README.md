@@ -10,7 +10,7 @@ Sessions stay in IndexedDB on the device. The site does not upload them.
 2. Tap Import.
 3. Choose the `.tpaf` file in the Files app.
 
-If the file is greyed out, change the picker filter to All Files. The extension is `.tpaf`.
+The picker does not filter by extension. iPadOS turns that filter into system file types, and `.tpaf` has none, so the file was disabled. A file that is not a Tendo export is rejected after you choose it.
 
 The session list is the home screen. Tap a rep for the curves. The line on each curve is the time to peak velocity.
 
