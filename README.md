@@ -54,7 +54,7 @@ velocity = 0.01 / (count * 8e-6)
 mean velocity = (n * 0.01) / (sum(counts) * 8e-6)
 ```
 
-A mean that borrows its scale from peak velocity is low by 2 to 3 percent. That scale is about 1218, because Tendo's peak is not the fastest single centimetre. The fastest centimetre is about 2.6 percent faster than the peak Tendo prints. The fastest 9 consecutive centimetres is the only integer width that matches the printed peak to 0.01 m/s on every rep of that export. The manuals do not state 9 cm. Another export could disagree. The curve on screen is still the raw 1 cm series, and the rep view also prints the fastest 1 cm.
+A mean that borrows its scale from peak velocity is low by 2 to 3 percent. That scale is about 1218, because Tendo's peak is not the fastest single centimetre. The fastest centimetre is about 2.6 percent faster than the peak Tendo prints. The fastest 9 consecutive centimetres is the only integer width within 0.01 m/s of the printed peak on every rep of that export. Rounded to the hundredth, 13 of the 24 still differ by 0.01 m/s. The manuals do not state 9 cm. Another export could disagree. The curve on screen is still the raw 1 cm series, and the rep view also prints the fastest 1 cm.
 
 `N_FILTER` is the minimum movement threshold in centimetres, not a smoothing window. The FAQ describes it that way. Reps shorter than the threshold are omitted from the file. The number is not used in the curve.
 

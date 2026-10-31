@@ -11,9 +11,9 @@ export const STEP_M = 0.01
 export const TICK_S = 8e-6
 
 // The fastest single centimetre sits about 2.6% above Tendo's peak velocity.
-// The fastest 9 consecutive centimetres is the only integer width that lands
-// on Tendo's peak to 0.01 m/s on every rep of that export. The manual never
-// states this width.
+// The fastest 9 cm is the only integer width within 0.01 m/s of Tendo's peak
+// on every rep of that export. 13 of 24 still differ by one displayed hundredth.
+// The manual never states this width.
 export const PEAK_WINDOW = 9
 
 // Conventional standard acceleration of gravity.
