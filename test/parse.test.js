@@ -57,3 +57,8 @@ test("a missing partial range uses the full rise", () => {
 test("a file without sets is rejected", () => {
   assert.throws(() => parseTpaf("<sets></sets>"), /not a Tendo/)
 })
+
+test("a file that is not a Tendo export is rejected", () => {
+  assert.throws(() => parseTpaf("notes from the gym"), /That file is not a Tendo \.tpaf export\./)
+  assert.throws(() => parseTpaf("<workout><exercise name=\"squat\"/></workout>"), /That file is not a Tendo \.tpaf export\./)
+})
